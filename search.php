@@ -1,8 +1,15 @@
 <?php
 	$title = htmlspecialchars($_POST['title']);
-	$type = htmlspecialchars($_POST['type']);
+	$type = ($_POST['type']);
 ?>
-<h1><?php 
-	echo $title;
-	echo $type; ?></h1>
+<?php 
+
+	if($type==='movie') { 
+		header("Location: displayMovie.php?title=$title");
+		exit;
+	} else { 
+		$type= $type."hello";
+	} 
+	echo $type;
+?>
 
