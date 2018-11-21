@@ -7,8 +7,9 @@
 	if($type==='movie') { 
 		header("Location: displayMovie.php?title=$title");
 		exit;
-	} else { 
-		$type= $type."hello";
+	} elseif($type==='person') { 
+		header("Location: displayPerson.php?title=$title");
+		exit;
 	} 
 	echo $type;
 ?>
