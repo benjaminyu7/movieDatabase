@@ -1,11 +1,15 @@
 <h1>Movies!</h1>
 <?php
 	$title = $_GET['title'];
-	echo $title;
 	$dbc = new PDO('mysql:host=localhost;dbname=movieDatabase', root);
-	$movieInfo = $dbc->prepare("Sql Statement");
+	$movieInfo = $dbc->prepare("SELECT * FROM Movie WHERE name = '$title' ");
 	$movieInfo->execute();
-	
-	$movieInfo->bindColumn('title',$title);
+	$movieInfo->bindColumn('name',$name);
+	$movieInfo->bindColumn('genre',$genre);
 	$movieInfo->fetch(PDO::FETCH_BOUND);
+	if($movieInfo->rowCount()==0) {
+		echo 'No results found';
+	}
+	echo $name,"<br>";
+	echo $genre;
 ?>

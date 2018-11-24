@@ -11,6 +11,17 @@
 		header("Location: displayPerson.php?title=$title");
 		exit;
 	} 
-	echo $type;
+	elseif($type==='genre') { 
+		header("Location: movieGenre.php?genre=$title");
+		exit;
+	}
+	elseif($type==='awardShow') { 
+		header("Location: awardShow.php?genre=$title");
+		exit;
+	}
+	elseif($type==='organization') { 
+		header("Location: displayOrganization.php?genre=$title");
+		exit;
+	}
 ?>
 
