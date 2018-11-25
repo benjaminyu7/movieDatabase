@@ -1,0 +1,33 @@
+html, body{
+    height: 100%;
+}
+.container{
+    height: 100%;
+}
+
+.vertical-center {
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh;
+  
+    display: flex;
+    align-items: center;
+  }
+
+  .under{
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 20px;
+  }
+  .btn-primary{
+      background-color: #C9C9C9;
+      color:black;
+      border: none;
+  }
+  .btn-primary:hover{
+      background-color:#999999;
+      color:black;
+  }
+  .btn_icon{
+      height: 20px;
+      width: 20px;
+  }
