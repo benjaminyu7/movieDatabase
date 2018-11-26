@@ -1,9 +1,11 @@
 <?php
 	$title = htmlspecialchars($_POST['title']);
 	$type = ($_POST['type']);
+	/*echo $title;
+	echo $type;*/
 ?>
 <?php 
-	if($type==='movie') { 
+	if($type==='movieShow') { 
 		header("Location: displayMovie.php?title=$title");
 		exit;
 	} elseif($type==='person') { 
