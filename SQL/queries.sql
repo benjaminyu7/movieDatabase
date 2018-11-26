@@ -35,7 +35,7 @@ WHERE m.name = @mname;
 -- GET MOVIE INFO BY ID
 SET @mid = 4;
 SELECT * FROM movie m
-WHERE m.mediaId = mid;
+WHERE m.mediaId = @mid;
 
 -- GET TV INFO BY ID
 SET @tid = 2;

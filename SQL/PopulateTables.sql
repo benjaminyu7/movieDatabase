@@ -57,7 +57,7 @@ INSERT INTO person (firstName, lastName, age, height, sex, birthdate, birthplace
 ("Jon","Favreau",52,72,'M',DATE("1966-10-19"),26,"http://www.gstatic.com/tv/thumb/persons/71093/71093_v9_ba.jpg");
 
 -- name, release date
-INSERT INTO mediaType (name,releaseDate) VALUES
+INSERT INTO mediaType (name,releaseDate, type) VALUES
 ("Titanic",DATE("1997-12-19"),"M"),
 ("Sherlock",DATE("2010-1-1"),"T"),
 ("Ironman",DATE("2008-05-02"),"M"),

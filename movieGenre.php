@@ -1,7 +1,7 @@
 <?php
 	$genre = $_GET['genre'];
 	echo '<h1>Genre</h1>';
-	$dbc = new PDO('mysql:host=localhost;dbname=movieDatabase', root);
+	$dbc = new PDO('mysql:host=localhost;dbname=moviedatabase', root);
 	$movieInfo = $dbc->prepare("SELECT * FROM Movie WHERE genre = '$genre'; ");
 	$movieInfo->execute();
 	$movieInfo->bindColumn('name',$name);
