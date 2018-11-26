@@ -3,7 +3,6 @@
 	$type = ($_POST['type']);
 ?>
 <?php 
-
 	if($type==='movie') { 
 		header("Location: displayMovie.php?title=$title");
 		exit;

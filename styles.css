@@ -24,8 +24,12 @@ html, body{
       border: none;
   }
   .btn-primary:hover{
-      background-color:#999999;
-      color:black;
+    background-color:#b9b9b9;
+    color:black;
+  }
+  .btn.active{
+    background-color:#999999;
+    color:black;
   }
   .btn_icon{
       height: 20px;
