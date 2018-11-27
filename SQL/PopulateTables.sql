@@ -1,5 +1,8 @@
 USE moviedatabase;
 
+-- Populate the tables with data.
+
+DELETE FROM location;
 -- ADDRESS, ADDRESS2, City, State, Country --
 INSERT INTO location (address,address2,city,state,country) VALUES 
 (NULL,NULL,"Syracuse","NY","USA"),
@@ -57,11 +60,11 @@ INSERT INTO person (firstName, lastName, age, height, sex, birthdate, birthplace
 ("Jon","Favreau",52,72,'M',DATE("1966-10-19"),26,"http://www.gstatic.com/tv/thumb/persons/71093/71093_v9_ba.jpg");
 
 -- name, release date
-INSERT INTO mediaType (name,releaseDate, type) VALUES
-("Titanic",DATE("1997-12-19"),"M"),
-("Sherlock",DATE("2010-1-1"),"T"),
-("Ironman",DATE("2008-05-02"),"M"),
-("The Avengers",DATE("2012-05-04"),"T");
+INSERT INTO media (name,releaseDate,type,duration,boxOffice,seasons,episodes,rating,picture) VALUES
+("Titanic",DATE("1997-12-19"),"M",TIME("03:14:00"),2186772302,NULL,NULL,"PG-13","https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg"),
+("Sherlock",DATE("2010-1-1"),"T",NULL,NULL,4,15,"TV-14","https://static.metacritic.com/images/products/tv/4/525c42f7a1b036d6716878d6b59f28e9.jpg"),
+("Ironman",DATE("2008-05-02"),"M",TIME("02:06:00"),585174222,NULL,NULL,"PG-13","http://www.gstatic.com/tv/thumb/v22vodart/170620/p170620_v_v8_al.jpg"),
+("The Avengers",DATE("2012-05-04"),"T",TIME("02:23:00"),1519557910,NULL,NULL,"PG-13","https://upload.wikimedia.org/wikipedia/en/f/f9/TheAvengers2012Poster.jpg");
 
 -- mediaID, genre
 INSERT INTO mediaGenre (mediaId, genre)VALUES
@@ -76,16 +79,6 @@ INSERT INTO mediaGenre (mediaId, genre)VALUES
 (4,"Action"),
 (4,"Adventure"),
 (4,"Sci-Fi");
-
--- mediaID, duration, boxOffice, rating
-INSERT INTO movie (mediaId,duration,boxOffice,rating) VALUES
-(1,TIME("03:14:00"),2186772302,"PG-13"),
-(3,TIME("02:06:00"),585174222,"PG-13"),
-(4,TIME("02:23:00"),1519557910,"PG-13");
-
--- mediaId, seasons,episodes,rating
-INSERT INTO tvshow (mediaId, seasons,episodes, rating) VALUES
-(2,4,15,"TV-14");
 
 -- role, mediaID, personID
 INSERT INTO casts (role,mediaId,personId) VALUES
