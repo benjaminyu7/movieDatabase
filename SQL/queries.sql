@@ -6,7 +6,7 @@ use moviedatabase;
 
 -- GET PERSON'S IINFO BY FULL NAME
 SET @fname = "Robert";
-SET @lname = "Downy JR";
+SET @lname = "Downey JR";
 SELECT p.* FROM person p
 WHERE p.firstName = @fname
 AND p.lastName = @lname;
