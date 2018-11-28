@@ -61,8 +61,14 @@ AND a.personId = p.id;
 
 -- SEARCH BY DISTRIBUTORS --
 SET @dist_name = "Paramount Pictures";
-SELECT m.name, d.name FROM distributor d, distributes ds, media m
+SELECT m.name, m.id FROM distributor d, distributes ds, media m
 WHERE d.name = @dist_name
 AND d.id = ds.distributorId
 AND m.id = ds.mediaId;
+
+-- Get Dist Location
+SET @dist_name = "Paramount Pictures";
+SELECT l.* FROM location l, distributor d
+WHERE d.name = @dist_name
+AND l.id = d.location;
 

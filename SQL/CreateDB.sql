@@ -53,6 +53,7 @@ CREATE TABLE distributor (
 	id INT AUTO_INCREMENT,
         	name VARCHAR (64),
         	location INT,
+            picture TEXT,
 	FOREIGN KEY (location) REFERENCES location(id),
         	PRIMARY KEY (id)
 );

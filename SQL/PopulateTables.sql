@@ -30,7 +30,9 @@ INSERT INTO location (address,address2,city,state,country) VALUES
 ("425 Meadowlands Pkwy",NULL,"Secaucus","NJ","USA"),
 (NULL,NULL,"Los Angeles","CA","USA"),
 (NULL,NULL,"Sedgefield",NULL,"United Kingdom"), -- 25
-(NULL,NULL,"Flushing","NY","USA");
+(NULL,NULL,"Flushing","NY","USA"),
+(NULL,NULL,"Cleveland","OH","USA"),
+("114 5th Ave","#13","New York","NY","USA");
 
 -- first name, last name, age, height, sex, birthdate, birthplace,URL
 INSERT INTO person (firstName, lastName, age, height, sex, birthdate, birthplace, picture) VALUES
@@ -57,14 +59,16 @@ INSERT INTO person (firstName, lastName, age, height, sex, birthdate, birthplace
 -- 21 below
 ("Gwyneth","Paltrow",46,69,'F',DATE("1972-09-27"),24,"http://www.gstatic.com/tv/thumb/persons/25268/25268_v9_bb.jpg"),
 ("Mark","Gatiss", 52,73,'M',DATE("1966-10-17"),25,"http://www.gstatic.com/tv/thumb/persons/199349/199349_v9_bb.jpg"),
-("Jon","Favreau",52,72,'M',DATE("1966-10-19"),26,"http://www.gstatic.com/tv/thumb/persons/71093/71093_v9_ba.jpg");
+("Jon","Favreau",52,72,'M',DATE("1966-10-19"),26,"http://www.gstatic.com/tv/thumb/persons/71093/71093_v9_ba.jpg"),
+("Anthony","Russo",48,72,'M',DATE("1970-02-03"),27,"https://m.media-amazon.com/images/M/MV5BMTc2NjM5MTM0Ml5BMl5BanBnXkFtZTgwMTY3ODczNjM@._V1_UX214_CR0,0,214,317_AL_.jpg");
 
 -- name, release date
 INSERT INTO media (name,releaseDate,type,duration,boxOffice,seasons,episodes,rating,picture) VALUES
 ("Titanic",DATE("1997-12-19"),"M",TIME("03:14:00"),2186772302,NULL,NULL,"PG-13","https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg"),
 ("Sherlock",DATE("2010-1-1"),"T",NULL,NULL,4,15,"TV-14","https://static.metacritic.com/images/products/tv/4/525c42f7a1b036d6716878d6b59f28e9.jpg"),
 ("Ironman",DATE("2008-05-02"),"M",TIME("02:06:00"),585174222,NULL,NULL,"PG-13","http://www.gstatic.com/tv/thumb/v22vodart/170620/p170620_v_v8_al.jpg"),
-("The Avengers",DATE("2012-05-04"),"T",TIME("02:23:00"),1519557910,NULL,NULL,"PG-13","https://upload.wikimedia.org/wikipedia/en/f/f9/TheAvengers2012Poster.jpg");
+("The Avengers",DATE("2012-05-04"),"T",TIME("02:23:00"),1519557910,NULL,NULL,"PG-13","https://upload.wikimedia.org/wikipedia/en/f/f9/TheAvengers2012Poster.jpg"),
+("Avengers: Infinity War",DATE("2018-04-27"),"M",TIME("02:29:00"),2046900111,NULL,NULL,"PG-13","https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SY1000_CR0,0,674,1000_AL_.jpg");
 
 -- mediaID, genre
 INSERT INTO mediaGenre (mediaId, genre)VALUES
@@ -78,7 +82,10 @@ INSERT INTO mediaGenre (mediaId, genre)VALUES
 (3,"Sci-Fi"),
 (4,"Action"),
 (4,"Adventure"),
-(4,"Sci-Fi");
+(4,"Sci-Fi"),
+(5,"Action"),
+(5,"Adventure"),
+(5,"Fantasy");
 
 -- role, mediaID, personID
 INSERT INTO casts (role,mediaId,personId) VALUES
@@ -94,18 +101,25 @@ INSERT INTO casts (role,mediaId,personId) VALUES
 ("Actor",4,10),
 ("Actor",4,12),
 ("Actor",4,21),
-("Director",4,23);
+("Director",4,23),
+("Actor",5,4),
+("Actor",5,12),
+("Actor",5,15),
+("Director",5,24);
 
-INSERT INTO distributor (name, location) VALUES
-("BBC Worldwide",21),
-("20th Century Fox",22),
-("Paramount Pictures",23);
+INSERT INTO distributor (name, location, picture) VALUES
+("BBC Worldwide",21, "https://vignette.wikia.nocookie.net/logopedia/images/e/e9/BBC_Worldwide-0.png/revision/latest?cb=20170729115314"),
+("20th Century Fox",22, "https://yt3.ggpht.com/a-/AN66SAwtsHodTEUXBGyJfdmCCVfGEML0iAsZMHDoQA=s900-mo-c-c0xffffffff-rj-k-no"),
+("Paramount Pictures",23, "https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Paramount_Pictures_2010.svg/220px-Paramount_Pictures_2010.svg.png"),
+("Walt Disney Studios Motion Pictures",28,"https://vignette.wikia.nocookie.net/starwars/images/e/e7/Walt_Disney_Studios_Motion_Pictures_logo.png/revision/latest?cb=20140728012556");
 
 INSERT INTO distributes (distributorId, mediaId) VALUES
 (1,2),
 (2,1),
 (3,1),
-(3,3);
+(3,3),
+(3,4),
+(4,5);
 
 
 INSERT INTO awards (personId,award,year_awarded) VALUES
