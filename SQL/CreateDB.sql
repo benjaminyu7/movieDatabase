@@ -1,4 +1,3 @@
-DROP DATABASE moviedatabase;
 CREATE DATABASE moviedatabase;
 USE moviedatabase;
 
