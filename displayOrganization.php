@@ -1,10 +1,10 @@
 <?php
-	$title = $_GET['title'];
+	$organization = $_GET['organization'];
 	$dbc = new PDO('mysql:host=localhost;dbname=moviedatabase', root);
 	/*get produced movies*/
 	$movieInfo = $dbc->prepare("
 		SELECT m.name, m.id FROM distributor d, distributes ds, media m
-		WHERE d.name = $title
+		WHERE d.name = '$organization'
 		AND d.id = ds.distributorId
 		AND m.id = ds.mediaId;
 	");
@@ -60,7 +60,7 @@
             <div class="row">
               <div class="col">
                 <!-- Orgainzation'S NAME -->
-                <p class="h3">Paramount Pictures</p>
+                <p class="h3"><?php echo $organization ?></p>
                 <!-- ADDRESS -->
                 <ul class="list-inline">
                   <li class="list-inline-item" id="location">425 Meadowlands Pkwy, Secaucus, NJ USA</li>

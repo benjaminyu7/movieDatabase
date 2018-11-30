@@ -1,24 +1,3 @@
-<?php
-	$show = $_GET['show'];
-	$dbc = new PDO('mysql:host=localhost;dbname=moviedatabase', root);
-	$movieInfo = $dbc->prepare("
-		SELECT * FROM awards a
-		WHERE a.award = '$show';
-	 ");
-	$movieInfo->execute();
-	$movieInfo->bindColumn('name',$name);
-	$movieInfo->bindColumn('releaseDate',$releaseDate);
-	$movieInfo->bindColumn('picture',$picture);
-	if($movieInfo->rowCount()==0) {
-		echo 'No results found';
-	}
-	while($movieInfo->fetch(PDO::FETCH_BOUND)) {
-		echo "<br>";
-		echo $name;
-		echo $releaseDate;
-		echo $picture;
-	}
-?>
 <!DOCTYPE html>
 <html>
 	<head>

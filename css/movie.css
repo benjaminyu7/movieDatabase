@@ -1,9 +1,11 @@
 .movie-img{
-    width:250px;
+    min-width:250px;
+    max-width:250px;
     height:auto;
 }
 .actor-img
 {
-    width:150px;
+    min-width:150px;
+    max-width:150px;
     height:auto;
 }

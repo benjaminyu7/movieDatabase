@@ -21,9 +21,8 @@ CREATE TABLE person (
         	height INT,
         	sex CHAR(1),
         	birthdate DATE,
-        	birthplace INT,
+        	birthplace VARCHAR(64),
             picture TEXT,
-	FOREIGN KEY (birthplace) REFERENCES location(id),
         	PRIMARY KEY(id)
 );
 
@@ -75,10 +74,13 @@ CREATE TABLE casts (
 
 CREATE TABLE awards (
 	personId INTEGER NOT NULL,
+    mediaId INTEGER NOT NULL,
 	award VARCHAR(64) NOT NULL,
 	year_awarded INT NOT NULL,
+    description VARCHAR(256),
+    won boolean NOT NULL,
 	FOREIGN KEY (personId) REFERENCES person(id),
-	PRIMARY KEY (personId, award, year_awarded)
+	PRIMARY KEY (personId,mediaId, award, year_awarded,description)
 );
 
 
