@@ -12,11 +12,19 @@
 	$movieInfo->bindColumn('name',$name);
 	/*Get distributor location*/
 	$movieInfo = $dbc->prepare("
-		SELECT l.* FROM location l, distributor d
-		WHERE d.name = $title
+		SELECT picture, l.* FROM location l, distributor d
+		WHERE d.name = '$organization'
 		AND l.id = d.location;
 	");
 	$movieInfo->execute();
+	$movieInfo->bindColumn('picture',$organizationPicture);
+	$movieInfo->bindColumn('address',$address);
+	$movieInfo->bindColumn('address2',$address2);
+	$movieInfo->bindColumn('city',$city);
+	$movieInfo->bindColumn('state',$state);
+	$movieInfo->bindColumn('country',$country);
+	$movieInfo->fetch(PDO::FETCH_BOUND);
+
 ?>
 <html>
 
@@ -36,7 +44,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item" aria-current="page"><a href="../index.html">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Search: Paramount Pictures</li>
+        <li class="breadcrumb-item active" aria-current="page">Search: <?php echo $organization; ?></li>
       </ol>
     </nav>
     <div class="card">
@@ -47,7 +55,7 @@
             <div class="row">
               <div class="card">
                 <!-- USE PICTURE LINK FOR SRC VALUE -->
-                <img class="card-img-top mb-0 img-size" src="https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Paramount_Pictures_2010.svg/220px-Paramount_Pictures_2010.svg.png" alt="Paramount" width="">
+                <img class="card-img-top mb-0 img-size" src=<?php echo $organizationPicture; ?> alt=<?php echo $organization; ?> width="">
                 <div class="card-footer pt-0 pb-0">
                   <!-- We're not exactly changing these so i guess just keep these static lol. -->
                   <p class="pt-0 pb-0 mb-0">Distributor | Film Studio</p>
@@ -63,7 +71,7 @@
                 <p class="h3"><?php echo $organization ?></p>
                 <!-- ADDRESS -->
                 <ul class="list-inline">
-                  <li class="list-inline-item" id="location">425 Meadowlands Pkwy, Secaucus, NJ USA</li>
+                  <li class="list-inline-item" id="location"><?php echo $address," ", $address2," ", $city,", ", $state," ", $country; ?> </li>
                 </ul>
               </div>
             </div>
@@ -74,47 +82,32 @@
               <!-- MOVIE CARDS. LOOP THROUGH ALL PRODUCED/DISTRIBUTED MOVIES FOR ORGANIZATION. -->
               <div class="d-flex flex-nowrap scrolling-wrapper card-list">
                 <!-- Each card in this list should be populated by the data for a single movie. -->
-                <div class="col-auto">
-                  <div class="card">
-                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                    <div class="card-footer card-footer pt-0 pb-0">
-                      <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-auto">
-                  <div class="card">
-                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                    <div class="card-footer card-footer pt-0 pb-0">
-                      <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <div class="card">
-                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                    <div class="card-footer card-footer pt-0 pb-0">
-                      <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <div class="card">
-                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                    <div class="card-footer card-footer pt-0 pb-0">
-                      <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <div class="card">
-                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                    <div class="card-footer card-footer pt-0 pb-0">
-                      <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                    </div>
-                  </div>
-                </div>
+		<?php
+			$movieInfo = $dbc->prepare("
+				SELECT m.name, m.id,m.picture, m.releaseDate FROM distributor d, distributes ds, media m
+				WHERE d.name = '$organization'
+				AND d.id = ds.distributorId
+				AND m.id = ds.mediaId;
+			");
+			$movieInfo->execute();
+			$movieInfo->bindColumn('name',$name);
+			$movieInfo->bindColumn('picture',$picture);
+			$movieInfo->bindColumn('releaseDate',$releaseDate);
+			while($movieInfo->fetch(PDO::FETCH_BOUND)){
+				echo "
+					<div class='col-auto'>
+					<a href='displayMovie.php?title=".urlencode($name)."' class='card-link'>
+					  <div class='card'>
+					    <img src='$picture' alt='$name' class='card-img-top img-size'>
+					    <div class='card-footer card-footer pt-0 pb-0'>
+					      <p class='text-muted pt-0 pb-0 mb-0'>$name (".substr($releaseDate,0,4).")</p>
+					    </div>
+					  </div>
+					</a>
+					</div>
+				";
+			}
+		?>
               </div>
             </div>
 
