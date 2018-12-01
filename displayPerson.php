@@ -31,7 +31,7 @@
 ?>
 <?php /* Media person played a role in, divide the movies into Actor, Director Role */
 	$movieInfo = $dbc -> prepare("
-		SELECT c.role, m.* FROM media m,casts c
+		SELECT c.role, m.* FROM media m,job c
 		WHERE c.personId = '$id'
 		AND m.id = c.mediaId;
 	");

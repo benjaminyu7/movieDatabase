@@ -84,7 +84,7 @@
                 <!-- Each card in this list should be populated by the data for a single movie. -->
 		<?php
 			$movieInfo = $dbc->prepare("
-				SELECT m.name, m.id,m.picture, m.releaseDate FROM distributor d, distributes ds, media m
+				SELECT m.name, m.id,m.picture, m.releaseDate FROM distributor d, distribution ds, media m
 				WHERE d.name = '$organization'
 				AND d.id = ds.distributorId
 				AND m.id = ds.mediaId;

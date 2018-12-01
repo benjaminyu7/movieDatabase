@@ -32,7 +32,7 @@
 	*/
 	$movieInfo = $dbc->prepare("
 		SELECT p.*,c.role
-		from person p, media m, casts c
+		from person p, media m, job c
 		WHERE m.id = '$id'
 		AND m.id = c.mediaId
 		AND p.id = c.personId;

@@ -38,10 +38,10 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page"><a href="../index.html">Home</a></li>
                     <!-- REAL SEARCH QUERIES SHOULD RESULT IN "Search by Genre: $genre" -->
-                    <li class="breadcrumb-item active" aria-current="page">Search by Award: Oscars</li>
+                    <li class="breadcrumb-item active" aria-current="page">Search by Award: <?php echo $show; ?></li>
                 </ol>
             </nav>
-            <p class="h2">Oscars Winners:</p>
+            <p class="h2"><?php echo $show?> Winners:</p>
             <div class="genre-card-list">
                 <ul class="list-unstyled">
                     <!-- Actor-based awards will have:
@@ -58,31 +58,9 @@
                     <!-- One result per card -->
 		    <?php 
 		    	while($movieInfo->fetch(PDO::FETCH_BOUND)) {
-			    echo "
-			    <a href='movie.html' class='card-link'>
-			    <li class='list-item'>
-				<div class='card genre-card'>
-				    <div class='card-body genre-card-body'>
-					<div class='row align-items-center'>
-					    <div class='col-auto'>
-						<!-- movie picture -->
-						<img class='genre-card-img' src='$picture' alt='Leo'>
-					    </div>
-					    <div class='col'>
-						<!-- Title -->
-						<p class='h3'> $name </p>
-						<!-- Award type -->
-						<p class='text-muted h6'>$description ($year_awarded)</p>
-					    </div>
-					</div>
-				    </div>
-				</div>
-			    </a>
-			    ";
-			}
 
 			echo "
-			    <a href='person.html' class='card-link'>
+			    <a href='displayPerson.php?title=".urlencode($firstName." ".$lastName)."' class='card-link'>
 			    <li class='list-item'>
 				<div class='card genre-card'>
 				    <div class='card-body genre-card-body'>
@@ -96,19 +74,20 @@
 						<p class='h3'>$firstName $lastName</p>
 						<ul class='list-inline text-muted'>
 						    <!-- award type -->
-						    <p class='list-inline-item h6'>Actor in a Leading Role (2018)</p>
+						    <p class='list-inline-item h6'>$description ($year_awarded)</p>
 						    <!-- movie  -->
-						    <p class='list-inline-item h6'>Get Out</p>
+						    <p class='list-inline-item h6'>$name</p>
 						</ul>
 					    </div>
 					</div>
 				    </div>
 				</div>
+			    </li>                    
 			    </a>
-			';
+			";
+			}
 			   ?>
                         
-                    </li>                    
                 </ul>
             </div>
         </div>        
