@@ -1,8 +1,14 @@
-<h1>Display Person</h1>
 <?php
 	$title = $_GET['title'];
-	$firstName = "Robert";
-	$lastName = "Downey JR";
+	$firstName;
+	$lastName;
+	for($x = 0; $x < strlen($title); $x++) {
+		if (substr($title, $x, 1) == " ") {
+			$firstName = substr($title, 0, $x);
+			$lastName = substr($title, $x+1, strlen($title) - $x);
+			break;
+		}
+	}
 	$dbc = new PDO('mysql:host=localhost;dbname=moviedatabase', root);
 	$movieInfo = $dbc->prepare("
 		SELECT p.* FROM person p
@@ -16,17 +22,14 @@
 	$movieInfo->bindColumn('sex',$sex);
 	$movieInfo->bindColumn('birthdate',$birthdate);
 	$movieInfo->bindColumn('birthplace',$birthplace);
-	$movieInfo->bindColumn('picture',$picture);
+	$movieInfo->bindColumn('picture',$personPicture);
 	$movieInfo->fetch(PDO::FETCH_BOUND);
-	/* Person's Info */
-	echo $age, "<br>";
-	echo $height, "<br>";
-	echo $sex, "<br>";
-	echo $birthdate, "<br>";
-	echo $birthplace, "<br>";
-	echo $picture, "<br>";
 
-	/* Media person played a role in */
+	if($movieInfo->rowCount()==0) {
+		echo 'No results found';
+	}
+?>
+<?php /* Media person played a role in, divide the movies into Actor, Director Role */
 	$movieInfo = $dbc -> prepare("
 		SELECT c.role, m.* FROM media m,casts c
 		WHERE c.personId = '$id'
@@ -37,32 +40,36 @@
 	$movieInfo->bindColumn('role',$role);
 	$movieInfo->bindColumn('releaseDate',$releaseDate);
 	$movieInfo->bindColumn('picture',$picture);
+	$actors = array();
+	$produced = array();
+	$directed = array();
+	$acted = false;
+	$hasDirected = false;
+	$hasProduced = false;
 	while($movieInfo->fetch(PDO::FETCH_BOUND)){
-		echo "<br>";
-		echo $role, "<br>";
-		echo $name, "<br>";
-		echo $releaseDate, "<br>";
-		echo $picture, "<br>";
-	}
-
-	/* Awards won by a person */
-	$movieInfo = $dbc -> prepare("
-		SELECT award,year_awarded FROM awards
-		WHERE personId = '$id';
-	");
-	$movieInfo->execute();
-	$movieInfo->bindColumn('award',$award);
-	$movieInfo->bindColumn('year_awarded',$year_awarded);
-	while($movieInfo->fetch(PDO::FETCH_BOUND)){
-		echo "<br>";
-		echo $award, "<br>";
-		echo $year_awarded, "<br>";
-	}
-
-	if($movieInfo->rowCount()==0) {
-		echo 'No results found';
+		$releaseDate= "(".substr($releaseDate,0,4).")";
+		$temp ="<div class='col-auto'>
+				<div class='card'>
+				    <img src='$picture' alt='Inception box art' class='card-img-top actor-img mr-auto ml-auto'>
+				    <div class='card-footer card-footer pt-0 pb-0'>
+					<p class='text-muted pt-0 pb-0 mb-0'>$name $releaseDate</p>
+				    </div>
+				</div>
+			    </div>";
+		if ($role == "Actor") {
+			$actors[]= $temp;
+			$acted = true;
+		} elseif ($role == "Director") {
+			$directed[]=$temp;
+			$hasDirected = true;
+		} elseif ($role == "Producer") {
+			$produced[]=$temp;
+			$hasProduced = true;
+		}
 	}
 ?>
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -81,7 +88,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page"><a href="../index.html">Home</a></li>
                     <!-- REAL SEARCH QUERIES SHOULD RESULT IN "Search: $firstName $lastname" -->
-                    <li class="breadcrumb-item active" aria-current="page">Search: Leonardo Dicaprio</li>
+                    <li class="breadcrumb-item active" aria-current="page">Search: <?php echo $firstName," ",$lastName;?></li>
                 </ol>
             </nav>
                 <div class="card">
@@ -92,10 +99,28 @@
                                 <div class="row">
                                     <div class="card">
                                         <!-- USE PICTURE LINK FOR SRC VALUE -->
-                                        <img class="card-img-top mb-0 img-size" src="../assets/testFiles/Leo.jpg" alt="Leo Pic" width="">
+                                        <img class="card-img-top mb-0 img-size" src=<?php echo $personPicture?> alt="Leo Pic" width="">
                                         <div class="card-footer pt-0 pb-0">
                                             <!-- CREATE LOOP IN PHP TO LIST THE PERSON'S ROLES -->
-                                            <p class="pt-0 pb-0 mb-0">actor | producer | writer</p>
+					    <?php
+					    	$roles = '';
+						if ($acted) {
+							$roles=$roles."Actor";
+						}
+						if ($hasDirected) {
+							if ($roles != '') {
+								$roles=$roles." | ";
+							}
+							$roles=$roles."Producer";
+						}
+						if($hasProduced) {
+							if ($roles != '') {
+								$roles=$roles." | ";
+							}
+							$roles=$roles."Director";
+						}
+					    ?>
+                                            <p class="pt-0 pb-0 mb-0"><?php echo $roles?></p>
                                         </div>
                                     </div>
                                 </div>
@@ -103,11 +128,21 @@
                                     <div class="col-auto">
                                         <p class="h4">Awards:</p>
                                         <!-- Loop through person's awards -->
-                                        <ul class="list-unstyled">
-                                            <li><strong>2016:</strong> Oscar</li>
-                                            <li><strong>2014:</strong> Oscar</li>
-                                            <li><strong>2012:</strong> Oscar</li>
-                                        </ul>
+					<?php
+						/* Awards won by a person */
+						$movieInfo = $dbc -> prepare("
+							SELECT award,year_awarded FROM awards
+							WHERE personId = '$id';
+						");
+						$movieInfo->execute();
+						$movieInfo->bindColumn('award',$award);
+						$movieInfo->bindColumn('year_awarded',$year_awarded);
+						echo '<ul class="list-unstyled">';
+						while($movieInfo->fetch(PDO::FETCH_BOUND)){
+							echo '<li><strong>',$year_awarded,': </strong>',$award,'</li>' ;
+						}
+						echo '</ul>';
+					?>
                                     </div>
                                 </div>
                             </div>
@@ -116,153 +151,53 @@
                                 <div class="row">
                                     <div class="col">
                                         <!-- PERSON'S NAME -->
-                                        <p class="h3">Leonardo Dicaprio</p>
+                                        <p class="h3"><?php echo $firstName," ", $lastName;?></p>
                                         <!-- OTHER PERSON DATA FIELDS HERE -->
                                         <ul class="list-inline">
-                                            <li class="list-inline-item"><STRONG>Born:</STRONG> November 11, 1974</li>
-                                            <li class="list-inline-item"><strong>Sex:</strong> Male</p></li>
-                                            <li class="list-inline-item"><strong>Height:</strong> 6'</p></li>
-                                            <li class="list-inline-item"><strong>Age:</strong> AGE</p></li>
+                                            <li class="list-inline-item"><STRONG>Born: </STRONG><?php echo $birthdate;?></li>
+                                            <li class="list-inline-item"><strong>Sex: </strong><?php echo $sex;?></p></li>
+                                            <li class="list-inline-item"><strong>Height: </strong><?php echo $height, "\"";?></p></li>
+                                            <li class="list-inline-item"><strong>Age: </strong><?php echo $age;?></p></li>
                                         </ul>
                                     </div>
                                 </div>
 
                                 <div class="container">
 
-                                        <p class="h4">Acted In:</p>
-                                        <!-- MOVIE CARDS. LOOP THROUGH ALL ACTED MOVIES FOR PERSON. -->
-                                        <div class="d-flex flex-nowrap scrolling-wrapper card-list">
-                                            <!-- Each card in this list should be populated by the data for a single movie. -->
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+					<?php 
+						if ($acted) {
+							echo '<p class="h4">Acted In:</p>
+								<div class="d-flex flex-nowrap scrolling-wrapper card-list">';
+							foreach ($actors as $movie) {
+								echo $movie;
+							}
+							echo '</div>';
+						}
+					?>
 
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="h4">Produced:</p>
                                         <!-- PRODUCED MOVIE CARDS -->
-                                        <div class="d-flex flex-nowrap scrolling-wrapper card-list">
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="h4">Written:</p>
+					<?php
+						if($hasProduced) {
+							echo '<p class="h4">Produced:</p>
+							<div class="d-flex flex-nowrap scrolling-wrapper card-list">';
+						}
+							foreach ($produced as $movie) {
+								echo $movie;
+							}
+                                        		echo '</div>';
+					?>
+
                                         <!-- WRITTEN MOVIE CARDS -->
-                                        <div class="d-flex flex-nowrap scrolling-wrapper card-list">
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="card">
-                                                    <img src="../assets/testFiles/InceptionBox.jpg" alt="Inception box art" class="card-img-top">
-                                                    <div class="card-footer card-footer pt-0 pb-0">
-                                                        <p class="text-muted pt-0 pb-0 mb-0">Inception (2010)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+					<?php
+						if($hasDirected) {
+							echo '<p class="h4">Directed:</p>
+							<div class="d-flex flex-nowrap scrolling-wrapper card-list">';
+									foreach ($directed as $movie) {
+										echo $movie;
+									}
+							echo '</div>';
+						}
+					?>
                                 </div>
 
                             </div>
