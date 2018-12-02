@@ -1,4 +1,3 @@
-DROP DATABASE moviedatabase;
 CREATE DATABASE moviedatabase;
 USE moviedatabase;
 
@@ -24,7 +23,6 @@ CREATE TABLE person (
         	birthdate DATE,
         	birthplace VARCHAR(64),
             picture TEXT,
-	FOREIGN KEY (birthplace) REFERENCES location(id),
         	PRIMARY KEY(id)
 );
 
@@ -82,7 +80,7 @@ CREATE TABLE awards (
     description VARCHAR(256),
     won boolean NOT NULL,
 	FOREIGN KEY (personId) REFERENCES person(id),
-	PRIMARY KEY (personId, award, year_awarded)
+	PRIMARY KEY (personId,mediaId, award, year_awarded,description)
 );
 
 

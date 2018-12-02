@@ -2,7 +2,6 @@ USE moviedatabase;
 
 -- Populate the tables with data.
 
-DELETE FROM location;
 -- ADDRESS, ADDRESS2, City, State, Country --
 INSERT INTO location (address,address2,city,state,country) VALUES 
 ("1120 6th Ave",NULL,"New York","NY","USA"),
@@ -45,8 +44,8 @@ INSERT INTO person (firstName, lastName, age, height, sex, birthdate, birthplace
 ("Clark","Gregg",56,69,'M',DATE("1962-04-02"),"Boston, MA","https://m.media-amazon.com/images/M/MV5BMjYyNjAwNDUyOV5BMl5BanBnXkFtZTgwOTc5NzgyNjE@._V1_.jpg"),
 ("Kevin","Tancharoen",34,70,'M',DATE("1984-04-23"),"Los Angeles, CA","https://m.media-amazon.com/images/M/MV5BMzI4MTI0NTAzM15BMl5BanBnXkFtZTgwNTY5NTUxMjE@._V1_.jpg"),
 ("Ben","Stiller",53,67,'M',DATE("1965-11-30"),"New York, NY","https://m.media-amazon.com/images/M/MV5BMjc4NDc3NDkzMl5BMl5BanBnXkFtZTcwMTAyNTQwMw@@._V1_.jpg"),
-("Guy Ritchie",50,71,'M',DATE("1968-09-10"),"Hatfield, United Kingdom","https://m.media-amazon.com/images/M/MV5BMTM2NDkxMTcxMl5BMl5BanBnXkFtZTcwNTMyNjI5MQ@@._V1_.jpg"),
-("Tim Burton",60,71,'M',DATE("1958-08-25"),"Burbank, CA","https://m.media-amazon.com/images/M/MV5BMTcwNTc4NTMzOF5BMl5BanBnXkFtZTYwMzc5ODYz._V1_UX214_CR0,0,214,317_AL_.jpg");
+("Guy","Ritchie",50,71,'M',DATE("1968-09-10"),"Hatfield, United Kingdom","https://m.media-amazon.com/images/M/MV5BMTM2NDkxMTcxMl5BMl5BanBnXkFtZTcwNTMyNjI5MQ@@._V1_.jpg"),
+("Tim","Burton",60,71,'M',DATE("1958-08-25"),"Burbank, CA","https://m.media-amazon.com/images/M/MV5BMTcwNTc4NTMzOF5BMl5BanBnXkFtZTYwMzc5ODYz._V1_UX214_CR0,0,214,317_AL_.jpg");
 
 
 -- name, release date
@@ -59,10 +58,10 @@ INSERT INTO media (name,releaseDate,type,duration,boxOffice,seasons,episodes,rat
 ("Avengers: Infinity War",DATE("2018-04-27"),"M",TIME("02:29:00"),2046900111,NULL,NULL,"PG-13","https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SY1000_CR0,0,674,1000_AL_.jpg"),
 ("Agents of S.H.I.E.L.D.",DATE("2013-1-1"),"T",NULL,NULL,7,135,"TV-PG","https://m.media-amazon.com/images/M/MV5BMTc5NzEzMzA2MF5BMl5BanBnXkFtZTgwNDkyNzgyNDM@._V1_.jpg"),
 ("Ally McBeal",DATE("1997-09-08"),"T",NULL,NULL,5,112,"TV-PG","https://m.media-amazon.com/images/M/MV5BMTg1NTI0MTUxMl5BMl5BanBnXkFtZTcwODE1MzgyMQ@@._V1_.jpg"),
-("Tropic Thunder",DATE("2008-08-13"),"M",TIME("01:47:00"),188072649,"R","https://m.media-amazon.com/images/M/MV5BNDE5NjQzMDkzOF5BMl5BanBnXkFtZTcwODI3ODI3MQ@@._V1_SY1000_CR0,0,711,1000_AL_.jpg"),
-("Sherlock Holmes",DATE("2009-12-25"),"M",TIME("02:08:00"),524028679,"PG-13","https://m.media-amazon.com/images/M/MV5BMTg0NjEwNjUxM15BMl5BanBnXkFtZTcwMzk0MjQ5Mg@@._V1_SY1000_CR0,0,669,1000_AL_.jpg"),
+("Tropic Thunder",DATE("2008-08-13"),"M",TIME("01:47:00"),188072649,NULL,NULL,"R","https://m.media-amazon.com/images/M/MV5BNDE5NjQzMDkzOF5BMl5BanBnXkFtZTcwODI3ODI3MQ@@._V1_SY1000_CR0,0,711,1000_AL_.jpg"),
+("Sherlock Holmes",DATE("2009-12-25"),"M",TIME("02:08:00"),524028679,NULL,NULL,"PG-13","https://m.media-amazon.com/images/M/MV5BMTg0NjEwNjUxM15BMl5BanBnXkFtZTcwMzk0MjQ5Mg@@._V1_SY1000_CR0,0,669,1000_AL_.jpg"),
 -- 10
-("Sweeney Todd",DATE("2007-12-21"),"M",TIME("01:56:00"),152523073,"R","https://m.media-amazon.com/images/M/MV5BMTg3NjUxMzM5NV5BMl5BanBnXkFtZTcwMzQ1NjQzMw@@._V1_UX182_CR0,0,182,268_AL_.jpg");
+("Sweeney Todd",DATE("2007-12-21"),"M",TIME("01:56:00"),152523073,NULL,NULL,"R","https://m.media-amazon.com/images/M/MV5BMTg3NjUxMzM5NV5BMl5BanBnXkFtZTcwMzQ1NjQzMw@@._V1_UX182_CR0,0,182,268_AL_.jpg");
 
 -- mediaID, genre
 INSERT INTO mediaGenre (mediaId, genre)VALUES
