@@ -48,14 +48,17 @@
 	$hasProduced = false;
 	while($movieInfo->fetch(PDO::FETCH_BOUND)){
 		$releaseDate= "(".substr($releaseDate,0,4).")";
-		$temp ="<div class='col-auto'>
+		$temp ="
+			<a href='displayMovie.php?title=".urlencode($name)."' class='card-link'>
+			    <div class='col-auto'>
 				<div class='card'>
-				    <img src='$picture' alt='Inception box art' class='card-img-top actor-img mr-auto ml-auto'>
+				    <img src='$picture' alt='Inception box art' class='card-img-top img-size'>
 				    <div class='card-footer card-footer pt-0 pb-0'>
 					<p class='text-muted pt-0 pb-0 mb-0'>$name $releaseDate</p>
 				    </div>
 				</div>
-			    </div>";
+			    </div>
+			</a>";
 		if ($role == "Actor") {
 			$actors[]= $temp;
 			$acted = true;
@@ -111,13 +114,13 @@
 							if ($roles != '') {
 								$roles=$roles." | ";
 							}
-							$roles=$roles."Producer";
+							$roles=$roles."Director";
 						}
 						if($hasProduced) {
 							if ($roles != '') {
 								$roles=$roles." | ";
 							}
-							$roles=$roles."Director";
+							$roles=$roles."Producer";
 						}
 					    ?>
                                             <p class="pt-0 pb-0 mb-0"><?php echo $roles?></p>
@@ -126,7 +129,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <p class="h4">Awards:</p>
                                         <!-- Loop through person's awards -->
 					<?php
 						/* Awards won by a person */
@@ -137,6 +139,9 @@
 						$movieInfo->execute();
 						$movieInfo->bindColumn('award',$award);
 						$movieInfo->bindColumn('year_awarded',$year_awarded);
+						if($movieInfo->rowCount()!=0) {
+							echo '<p class="h4">Awards:</p>';
+						}
 						echo '<ul class="list-unstyled">';
 						while($movieInfo->fetch(PDO::FETCH_BOUND)){
 							echo '<li><strong>',$year_awarded,': </strong>',$award,'</li>' ;
