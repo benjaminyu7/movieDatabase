@@ -21,7 +21,7 @@ AND m.id = c.mediaId;
 -- SELECT AWARDS WON BY A PERSON
 
 SET @award_var = 4;
-SELECT award,year_awarded FROM awards
+SELECT * FROM awards
 WHERE personId = @award_var;
 
 -- SEARCH FOR MEDIA --
@@ -33,18 +33,21 @@ WHERE m.name = @mname;
 
 -- SELECTING PEOPLE WHO ACTED/PRODUCED/DIRECTED A MOVIE
 SET @mid = 4;
-SELECT p.id,p.firstName,p.lastName,p.age,p.height,p.sex,p.birthdate,p.picture,l.city,l.state,l.country,c.role
-from person p, media m, casts c, location l
+SELECT p.*,c.role
+from person p, media m, casts c
 WHERE m.id = @mid
 AND m.id = c.mediaId
-AND p.id = c.personId
-and l.id = p.birthplace;
+AND p.id = c.personId;
 
--- SELECT GENRES of a specific movie
 -- SELECT GENRES of a specific movie
 SET @genre_var = 4;
 SELECT genre FROM mediaGenre
 WHERE mediaId = @genre_var;
+
+-- SELECT AWARD FOR A SPECIFIC MOVIE
+SET @movie_var = 1;
+SELECT * FROM awards
+WHERE mediaId = @movie_var;
 
 -- SEARCH BY GENRE -- 
 -- Select all movies with a certain genre
@@ -55,9 +58,8 @@ AND mg.genre = @genre_name;
 
 -- SEARCH AWARDS --
 SET @award_name = "Golden Globe";
-SELECT p.firstName, p.lastName, a.award, a.year_awarded FROM awards a, person p
-WHERE a.award = @award_name
-AND a.personId = p.id;
+SELECT * FROM awards a
+WHERE a.award = @award_name;
 
 -- SEARCH BY DISTRIBUTORS --
 SET @dist_name = "Paramount Pictures";
