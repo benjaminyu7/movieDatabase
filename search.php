@@ -17,11 +17,11 @@
 		exit;
 	}
 	elseif($type==='awardShow') { 
-		header("Location: awardShow.php?genre=$title");
+		header("Location: awardShow.php?show=$title");
 		exit;
 	}
 	elseif($type==='organization') { 
-		header("Location: displayOrganization.php?genre=$title");
+		header("Location: displayOrganization.php?organization=$title");
 		exit;
 	}
 ?>
