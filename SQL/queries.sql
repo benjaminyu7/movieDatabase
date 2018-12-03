@@ -58,12 +58,14 @@ AND mg.genre = @genre_name;
 
 -- SEARCH AWARDS --
 SET @award_name = "Golden Globe";
-SELECT * FROM awards a
-WHERE a.award = @award_name;
+SELECT a.*,p.firstName, p.lastName, p.picture,m.name,m.releaseDate,m.picture FROM awards a, person p, media m
+WHERE a.award = @award_name
+AND a.personId = p.id
+AND a.mediaId = m.id;
 
 -- SEARCH BY DISTRIBUTORS --
 SET @dist_name = "Paramount Pictures";
-SELECT m.name, m.id FROM distributor d, distributes ds, media m
+SELECT m.name, m.id,m.picture, m.releaseDate FROM distributor d, distributes ds, media m
 WHERE d.name = @dist_name
 AND d.id = ds.distributorId
 AND m.id = ds.mediaId;
