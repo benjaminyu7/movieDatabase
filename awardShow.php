@@ -2,23 +2,24 @@
 	$show = $_GET['show'];
 	$dbc = new PDO('mysql:host=localhost;dbname=moviedatabase', root);
 	$movieInfo = $dbc->prepare("
-		SELECT * FROM awards a
-		WHERE a.award = '$show';
+		SELECT a.*,p.firstName, p.lastName, p.picture,m.name,m.releaseDate,m.picture as moviePicture FROM awards a, person p, media m
+		WHERE a.award = '$show'
+		AND a.personId = p.id
+		AND a.mediaId = m.id;
 	 ");
 	$movieInfo->execute();
+	$movieInfo->bindColumn('firstName',$firstName);
+	$movieInfo->bindColumn('lastName',$lastName);
 	$movieInfo->bindColumn('name',$name);
 	$movieInfo->bindColumn('releaseDate',$releaseDate);
 	$movieInfo->bindColumn('picture',$picture);
+	$movieInfo->bindColumn('moviePicture',$moviePicture);
+	$movieInfo->bindColumn('description',$description);
+	$movieInfo->bindColumn('year_awarded',$year_awarded);
 	if($movieInfo->rowCount()==0) {
 		echo 'No results found';
 	}
-	while($movieInfo->fetch(PDO::FETCH_BOUND)) {
-		echo "<br>";
-		echo $name;
-		echo $releaseDate;
-		echo $picture;
-	}
-?>
+	?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -55,49 +56,57 @@
 
                             
                     <!-- One result per card -->
-                    <a href="movie.html" class="card-link">
-                    <li class="list-item">
-                        <div class="card genre-card">
-                            <div class="card-body genre-card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <!-- movie picture -->
-                                        <img class="genre-card-img" src="../assets/testFiles/getout.jpg" alt="Leo">
-                                    </div>
-                                    <div class="col">
-                                        <!-- Title -->
-                                        <p class="h3">Get Out</p>
-                                        <!-- Award type -->
-                                        <p class="text-muted h6">Best Picture (2018)</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+		    <?php 
+		    	while($movieInfo->fetch(PDO::FETCH_BOUND)) {
+			    echo "
+			    <a href='movie.html' class='card-link'>
+			    <li class='list-item'>
+				<div class='card genre-card'>
+				    <div class='card-body genre-card-body'>
+					<div class='row align-items-center'>
+					    <div class='col-auto'>
+						<!-- movie picture -->
+						<img class='genre-card-img' src='$picture' alt='Leo'>
+					    </div>
+					    <div class='col'>
+						<!-- Title -->
+						<p class='h3'> $name </p>
+						<!-- Award type -->
+						<p class='text-muted h6'>$description ($year_awarded)</p>
+					    </div>
+					</div>
+				    </div>
+				</div>
+			    </a>
+			    ";
+			}
 
-                    <a href="person.html" class="card-link">
-                    <li class="list-item">
-                        <div class="card genre-card">
-                            <div class="card-body genre-card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <!-- actor picture -->
-                                        <img class="genre-card-img" src="../assets/testFiles/leo.jpg" alt="Leo">
-                                    </div>
-                                    <div class="col">
-                                        <!-- actor -->
-                                        <p class="h3">Leonardo Dicaprio</p>
-                                        <ul class="list-inline text-muted">
-                                            <!-- award type -->
-                                            <p class="list-inline-item h6">Actor in a Leading Role (2018)</p>
-                                            <!-- movie  -->
-                                            <p class="list-inline-item h6">Get Out</p>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+			echo "
+			    <a href='person.html' class='card-link'>
+			    <li class='list-item'>
+				<div class='card genre-card'>
+				    <div class='card-body genre-card-body'>
+					<div class='row align-items-center'>
+					    <div class='col-auto'>
+						<!-- actor picture -->
+						<img class='genre-card-img' src=$picture alt='Leo'>
+					    </div>
+					    <div class='col'>
+						<!-- actor -->
+						<p class='h3'>$firstName $lastName</p>
+						<ul class='list-inline text-muted'>
+						    <!-- award type -->
+						    <p class='list-inline-item h6'>Actor in a Leading Role (2018)</p>
+						    <!-- movie  -->
+						    <p class='list-inline-item h6'>Get Out</p>
+						</ul>
+					    </div>
+					</div>
+				    </div>
+				</div>
+			    </a>
+			';
+			   ?>
                         
                     </li>                    
                 </ul>

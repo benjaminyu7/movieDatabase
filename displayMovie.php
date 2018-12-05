@@ -13,6 +13,8 @@
 	$movieInfo->bindColumn('type',$type);
 	$movieInfo->bindColumn('duration',$duration);
 	$movieInfo->bindColumn('boxOffice',$boxOffice);
+	$movieInfo->bindColumn('seasons',$seasons);
+	$movieInfo->bindColumn('episodes',$episodes);
 	$movieInfo->bindColumn('rating',$rating);
 	$movieInfo->bindColumn('picture',$moviePicture);
 	$movieInfo->fetch(PDO::FETCH_BOUND);
@@ -126,9 +128,21 @@
 		<ul class="list-inline">
 		    <!-- rating, runtime, release date, box office results -->
 		    <li class="list-inline-item text-muted"><strong>Rating: </strong> <?php echo $rating; ?></li>
-		    <li class="list-inline-item text-muted"><strong>Runtime: </strong> <?php echo $duration; ?></li>
 		    <li class="list-inline-item text-muted"><strong>Release: </strong><?php echo $releaseDate;?></li>
-		    <li class="list-inline-item text-muted"><strong>Box Office: </strong><?php echo $boxOffice;?> USD</li>
+		    <?php 
+		    	if($type=='M') {
+				echo "
+				    <li class='list-inline-item text-muted'><strong>Runtime: </strong>  $duration</li>
+				    <li class='list-inline-item text-muted'><strong>Box Office: </strong> $boxOffice USD</li>
+			    	";
+			}
+			else {
+				echo "
+				    <li class='list-inline-item text-muted'><strong>Seasons: </strong>  $seasons</li>
+				    <li class='list-inline-item text-muted'><strong>Episodes: </strong> $episodes</li>
+			    	";
+			}
+		    ?>
 		</ul>
 	    </div>
 
