@@ -56,7 +56,7 @@ CREATE TABLE distributor (
         	PRIMARY KEY (id)
 );
 
-CREATE TABLE distributes (
+CREATE TABLE distribution	 (
 	distributorId INT,
 	mediaId INT,
         	FOREIGN KEY (distributorId) REFERENCES distributor(id),
@@ -64,22 +64,24 @@ CREATE TABLE distributes (
         	PRIMARY KEY (distributorId, mediaId)
 );
  
-CREATE TABLE casts (
+CREATE TABLE job (
         	role VARCHAR (64),
 	mediaId INT,
 	personId INT,
         	FOREIGN KEY (mediaId) REFERENCES media(id),
-        	FOREIGN KEY (personId) REFERENCES person(id)
+        	FOREIGN KEY (personId) REFERENCES person(id),
+            PRIMARY KEY (role, mediaId, personId)
 );
 
 CREATE TABLE awards (
-	personId INTEGER NOT NULL,
-    mediaId INTEGER NOT NULL,
+	personId INTEGER,
+    mediaId INTEGER,
 	award VARCHAR(64) NOT NULL,
 	year_awarded INT NOT NULL,
     description VARCHAR(256),
     won boolean NOT NULL,
 	FOREIGN KEY (personId) REFERENCES person(id),
+    FOREIGN KEY (mediaId) REFERENCES media(id),
 	PRIMARY KEY (personId,mediaId, award, year_awarded,description)
 );
 

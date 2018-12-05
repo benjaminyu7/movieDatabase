@@ -96,7 +96,7 @@ INSERT INTO mediaGenre (mediaId, genre)VALUES
 (10,"Musical");
 
 -- role, mediaID, personID
-INSERT INTO casts (role,mediaId,personId) VALUES
+INSERT INTO job (role,mediaId,personId) VALUES
 ("Actor",1,5),
 ("Actor",1,14),
 ("Director",1,20),
@@ -135,7 +135,7 @@ INSERT INTO distributor (name, location, picture) VALUES
 ("Walt Disney Studios Motion Pictures",4,"https://vignette.wikia.nocookie.net/starwars/images/e/e7/Walt_Disney_Studios_Motion_Pictures_logo.png/revision/latest?cb=20140728012556"),
 ("American Broadcasting Company",5,"https://vignette.wikia.nocookie.net/disney/images/0/05/ABC_Studios.png/revision/latest?cb=20170713095024");
 
-INSERT INTO distributes (distributorId, mediaId) VALUES
+INSERT INTO distribution (distributorId, mediaId) VALUES
 (1,2),
 (2,1),
 (3,1),

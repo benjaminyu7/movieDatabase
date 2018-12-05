@@ -14,7 +14,7 @@ AND p.lastName = @lname;
 -- SELECTING MEDIAS WHICH A PERSON ACTED IN
 -- USE Person ID select first to get the person ID
 SET @id_var = 4;
-SELECT c.role, m.* FROM media m,casts c
+SELECT c.role, m.* FROM media m,job c
 WHERE c.personId = @id_var
 AND m.id = c.mediaId;
 
@@ -34,7 +34,7 @@ WHERE m.name = @mname;
 -- SELECTING PEOPLE WHO ACTED/PRODUCED/DIRECTED A MOVIE
 SET @mid = 4;
 SELECT p.*,c.role
-from person p, media m, casts c
+from person p, media m, job c
 WHERE m.id = @mid
 AND m.id = c.mediaId
 AND p.id = c.personId;
@@ -65,7 +65,7 @@ AND a.mediaId = m.id;
 
 -- SEARCH BY DISTRIBUTORS --
 SET @dist_name = "Paramount Pictures";
-SELECT m.name, m.id,m.picture, m.releaseDate FROM distributor d, distributes ds, media m
+SELECT m.name, m.id,m.picture, m.releaseDate FROM distributor d, distribution ds, media m
 WHERE d.name = @dist_name
 AND d.id = ds.distributorId
 AND m.id = ds.mediaId;
